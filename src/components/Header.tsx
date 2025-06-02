@@ -1,62 +1,81 @@
-'use client';
+"use client";
 
-import { useState } from 'react';
-import { Moon, Sun, Globe } from 'lucide-react';
-import Link from 'next/link';
+import { useEffect, useState } from "react";
+import Link from "next/link";
+import { Sun, Moon } from "lucide-react";
 
-export default function Header() {
-  const [isDark, setIsDark] = useState(false);
+export default function Navbar() {
+  const [isScrolled, setIsScrolled] = useState(false);
+  const [darkMode, setDarkMode] = useState(false);
+
+  useEffect(() => {
+    const handleScroll = () => {
+      setIsScrolled(window.scrollY > 10);
+    };
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
+
   const toggleDarkMode = () => {
-    setIsDark(!isDark);
-    document.documentElement.classList.toggle('dark');
-  };
-
-  const [language, setLanguage] = useState<'en' | 'tr'>('en');
-  const toggleLanguage = () => {
-    setLanguage((prev) => (prev === 'en' ? 'tr' : 'en'));
+    setDarkMode(!darkMode);
+    document.documentElement.classList.toggle("dark", !darkMode);
   };
 
   return (
-    <header className="w-full px-4 py-3 shadow-md bg-white dark:bg-gray-900 text-gray-900 dark:text-white flex items-center justify-between">
-      {/* Sol taraf: logo ve yazı */}
-      <div className="flex items-center space-x-2">
-        <span className="text-2xl">📝</span>
-        <span className="font-bold text-lg">MyBlog</span>
+    <nav
+      className={`sticky top-0 z-50 transition-all duration-300 backdrop-blur-md px-4 py-3 md:px-8 ${
+        isScrolled ? "bg-white/70 dark:bg-gray-900/50" : "bg-transparent"
+      }`}
+    >
+      <div className="max-w-screen-xl mx-auto flex justify-between items-center">
+        {/* Left Side: Logo */}
+        <div className="flex items-center space-x-2">
+          <div className="w-10 h-10 rounded-full bg-white flex items-center justify-center">
+            <span className="text-indigo-600 font-bold text-xl">♥︎</span>
+          </div>
+          <span className="text-xl font-semibold dark:text-white">MyBlog</span>
+        </div>
+
+        {/* Center: Navigation */}
+        <div className="hidden md:flex space-x-6 text-sm">
+          {[
+            { href: "#", label: "Home" },
+            { href: "#", label: "About" },
+            { href: "#", label: "Pricing" },
+            { href: "#", label: "Contact" },
+            { href: "#", label: "Blog" },
+            { href: "#", label: "Pages" },
+          ].map((link) => (
+            <Link
+              key={link.label}
+              href={link.href}
+              className="text-gray-800 dark:text-white hover:text-blue-900 dark:hover:text-blue-400 transition-colors"
+            >
+              {link.label}
+            </Link>
+          ))}
+        </div>
+
+        {/* Right Side: Actions */}
+        <div className="flex items-center space-x-4">
+          <button onClick={toggleDarkMode} aria-label="Toggle dark mode">
+            {darkMode ? (
+              <Sun className="w-5 h-5 text-yellow-400" />
+            ) : (
+              <Moon className="w-5 h-5 text-gray-700 dark:text-white" />
+            )}
+          </button>
+          <Link
+            href="#"
+            className="text-sm text-gray-800 dark:text-white hover:text-blue-900 dark:hover:text-blue-400"
+          >
+            Sign In
+          </Link>
+          <button className="bg-gray-200 dark:bg-gray-700 text-gray-900 dark:text-white px-4 py-2 rounded-md text-sm hover:bg-gray-300 dark:hover:bg-gray-600">
+            Sign Up
+          </button>
+        </div>
       </div>
-
-      {/* Orta: navbar */}
-      <nav className="space-x-6 hidden md:flex">
-        <Link href="/" className="hover:underline">
-          Home
-        </Link>
-        <Link href="/contact" className="hover:underline">
-          Contact
-        </Link>
-        <Link href="/about" className="hover:underline">
-          About
-        </Link>
-      </nav>
-
-      {/* Sağ: dark mode ve dil butonları */}
-      <div className="flex items-center space-x-3">
-        <button
-          onClick={toggleDarkMode}
-          className="p-2 rounded-full hover:bg-gray-200 dark:hover:bg-gray-700 transition"
-          aria-label="Toggle Dark Mode"
-        >
-          {isDark ? <Sun size={20} /> : <Moon size={20} />}
-        </button>
-
-        <button
-          onClick={toggleLanguage}
-          className="flex items-center space-x-1 px-3 py-1 rounded-full border hover:bg-gray-100 dark:hover:bg-gray-800 transition"
-        >
-          <Globe size={16} />
-          <span>{language.toUpperCase()}</span>
-        </button>
-      </div>
-    </header>
+    </nav>
   );
 }
-
-
