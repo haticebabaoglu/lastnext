@@ -14,7 +14,7 @@ export default function Footer() {
               </div>
               <span className="text-xl font-semibold">MyBlog</span>
             </div>
-            <p className="text-gray-400 dark:text-gray-300 mb-6">
+            <p className="text-gray-100 dark:text-gray-300 mb-6">
               We create digital experiences for brands and companies by using technology.
             </p>
             <div className="flex space-x-4 text-white">
@@ -80,7 +80,7 @@ export default function Footer() {
         </div>
         <div className="flex items-center space-x-1">
           <span>Designed and Developed by</span>
-          <span className="text-white dark:text-white">TailGrids and Next.js Templates</span>
+          <span className="text-white dark:text-white">htc </span>
         </div>
       </div>
 

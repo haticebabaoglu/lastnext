@@ -49,7 +49,7 @@ export default function Navbar() {
             <Link
               key={link.label}
               href={link.href}
-              className="text-gray-800 dark:text-white hover:text-blue-900 dark:hover:text-blue-400 transition-colors"
+              className="text-gray-100 dark:text-white hover:text-blue-900 dark:hover:text-blue-400 transition-colors"
             >
               {link.label}
             </Link>
@@ -67,7 +67,7 @@ export default function Navbar() {
           </button>
           <Link
             href="#"
-            className="text-sm text-gray-800 dark:text-white hover:text-blue-900 dark:hover:text-blue-400"
+            className="text-sm text-gray-100 dark:text-white hover:text-blue-900 dark:hover:text-blue-400"
           >
             Sign In
           </Link>
